@@ -6,11 +6,10 @@ use App\Models\Chat;
 use App\Models\ChatMessage;
 use App\Models\CognitiveState;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Main Counseling Orchestrator Service.
- * Coordinates conversation session management, AI JSON cognitive evaluation, and database persistence.
+ * Coordinates conversation session management, 3-stage service pipeline execution, and database persistence.
  */
 class CounselingService
 {
@@ -58,7 +57,10 @@ class CounselingService
     }
 
     /**
-     * Process student message, request AI JSON evaluation for 8 functions, and store analytics.
+     * Process student message through clear 3-Stage Service Pipeline:
+     * 1. Analyze student's current message statement to detect 8-cognitive function state.
+     * 2. Pass detected state into CognitiveRotationService for target prompt generation (Bridge -> Target).
+     * 3. Request LLM completion via GroqService & persist database records.
      *
      * @param Chat $chat Active chat model instance
      * @param string $userContent User message text
@@ -73,71 +75,42 @@ class CounselingService
             'content' => $userContent,
         ]);
 
-        // 2. Initial analysis for fallback & prompt preparation
-        $history = $chat->messages()->pluck('content')->toArray();
-        $fallbackAnalysis = $this->analysisService->analyze($userContent, $history);
+        // 2. STAGE 1: Analyze student message FIRST using CognitiveAnalysisService
+        $initialAnalysis = $this->analysisService->analyzeUserMessage($userContent);
 
-        // 3. Request LLM completion with strict JSON system prompt
-        $systemPrompt = $this->rotationService->getSystemPrompt($fallbackAnalysis);
+        // 3. STAGE 2: Pass detected cognitive state into CognitiveRotationService for prompt building
+        $systemPrompt = $this->rotationService->getSystemPrompt($initialAnalysis);
+
+        // 4. STAGE 3: Single Direct LLM Call to Groq via GroqService
         $messagesPayload = $chat->messages()->select('role', 'content')->get()->toArray();
-
         $rawResponse = $this->groqService->generateCompletion($messagesPayload, $systemPrompt);
 
-        // Parse JSON output from AI
-        $analysis = $fallbackAnalysis;
-        $replyText = $rawResponse;
+        // 5. Parse response & normalize payload via CognitiveAnalysisService
+        $analysis = $this->analysisService->parseResponse($rawResponse, $initialAnalysis);
+        $replyText = $analysis['reply_text'];
 
-        // Clean json fences if present
-        $cleanJson = preg_replace('/^```json\s*|\s*```$/i', '', trim($rawResponse));
-        $parsed = json_decode($cleanJson, true);
-
-        if (json_last_error() === JSON_ERROR_NONE && is_array($parsed)) {
-            $replyText = $parsed['message'] ?? $rawResponse;
-            if (isset($parsed['scores']) && is_array($parsed['scores'])) {
-                $analysis['scores'] = array_merge([
-                    'Ti' => 0, 'Te' => 0, 'Fi' => 0, 'Fe' => 0,
-                    'Ni' => 0, 'Ne' => 0, 'Si' => 0, 'Se' => 0
-                ], $parsed['scores']);
-            }
-            if (isset($parsed['dominant_function'])) {
-                $analysis['primary_function'] = $parsed['dominant_function'];
-            }
-            if (isset($parsed['rotation_target'])) {
-                $analysis['rotation_target'] = $parsed['rotation_target'];
-            }
-            if (isset($parsed['rotation_vector'])) {
-                $analysis['rotation_vector'] = $parsed['rotation_vector'];
-            }
-            if (isset($parsed['in_loop'])) {
-                $analysis['in_loop'] = (bool)$parsed['in_loop'];
-            }
-            if (isset($parsed['emotional_clarity_score'])) {
-                $analysis['emotional_clarity_score'] = (float)$parsed['emotional_clarity_score'];
-            }
-        }
-
-        // 4. Persist Cognitive State record into database for historical statistics & dashboard tracking
+        // 6. Persist Cognitive State record into DB
         CognitiveState::create([
             'chat_id' => $chat->id,
             'primary_function' => $analysis['primary_function'],
             'secondary_function' => $analysis['secondary_function'],
-            'loop_detected' => $analysis['loop_detected'],
-            'rotation_applied' => $analysis['in_loop'] ? 'Cognitive Loop Disruption' : 'Empathetic Alignment',
+            'loop_detected' => null,
+            'rotation_applied' => 'Empathetic Alignment',
             'emotional_clarity_score' => $analysis['emotional_clarity_score'],
         ]);
 
-        // 5. Update Chat model summary flags
+        // 7. Update Chat model summary flags
         $chat->update([
             'dominant_function' => $analysis['primary_function'],
-            'in_loop' => $analysis['in_loop'],
+            'in_loop' => false,
         ]);
 
-        // 6. Save assistant message with full cognitive metadata and scores
+        // 8. Save assistant message with full cognitive metadata and scores
         $assistantMsg = ChatMessage::create([
             'chat_id' => $chat->id,
             'role' => 'assistant',
             'content' => $replyText,
-            'cognitive_tags' => [$analysis['primary_function'], $analysis['secondary_function'] ?? 'Te'],
+            'cognitive_tags' => [$analysis['primary_function']],
             'analysis_metadata' => $analysis,
         ]);
 
