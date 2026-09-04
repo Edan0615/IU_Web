@@ -3,9 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Chat;
-use App\Services\GroqService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Mockery;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class ChatControllerTest extends TestCase
@@ -21,33 +20,35 @@ class ChatControllerTest extends TestCase
 
     public function test_send_message_api_endpoint_returns_ai_data_and_sets_cookie(): void
     {
-        // Mock GroqService to return simulated AI completion
-        $aiJsonResponse = json_encode([
-            'message' => 'Take a deep breath. Let us analyze this step by step.',
-            'dominant_function' => 'Ne',
-            'rotation_target' => 'Si',
-            'rotation_vector' => 'Ne -> Si',
-            'in_loop' => false,
-            'emotional_clarity_score' => 0.92,
-            'scores' => [
-                'Ti' => 8,
-                'Te' => 10,
-                'Fi' => 15,
-                'Fe' => 12,
-                'Ni' => 14,
-                'Ne' => 26,
-                'Si' => 7,
-                'Se' => 9,
-            ],
+        // Fake Http requests to Groq API
+        Http::fake([
+            'https://api.groq.com/*' => Http::response([
+                'choices' => [
+                    [
+                        'message' => [
+                            'content' => json_encode([
+                                'message' => 'Take a deep breath. Let us analyze this step by step.',
+                                'dominant_function' => 'Ne',
+                                'rotation_target' => 'Si',
+                                'rotation_vector' => 'Ne -> Si',
+                                'in_loop' => false,
+                                'emotional_clarity_score' => 0.92,
+                                'scores' => [
+                                    'Ti' => 8,
+                                    'Te' => 10,
+                                    'Fi' => 15,
+                                    'Fe' => 12,
+                                    'Ni' => 14,
+                                    'Ne' => 26,
+                                    'Si' => 7,
+                                    'Se' => 9,
+                                ],
+                            ]),
+                        ],
+                    ],
+                ],
+            ], 200),
         ]);
-
-        $groqMock = Mockery::mock(GroqService::class);
-        $groqMock->shouldReceive('generateCompletion')
-            ->atLeast()
-            ->once()
-            ->andReturn($aiJsonResponse);
-
-        $this->app->instance(GroqService::class, $groqMock);
 
         // Execute API call
         $response = $this->postJson('/api/chat/send', [

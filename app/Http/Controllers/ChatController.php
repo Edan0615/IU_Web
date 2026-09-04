@@ -11,6 +11,7 @@ use Inertia\Response;
 
 /**
  * Controller handling counseling chat web routes and RESTful API endpoints.
+ * Follows SOLID & Backend Standards by delegating all business logic to CounselingService.
  */
 class ChatController extends Controller
 {
@@ -54,4 +55,3 @@ class ChatController extends Controller
         return response()->json($result)->cookie('counseling_session_token', $chat->session_token, 60 * 24 * 30);
     }
 }
-

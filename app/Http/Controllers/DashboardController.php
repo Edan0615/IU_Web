@@ -5,22 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Chat;
 use App\Models\ChatMessage;
 use App\Models\CognitiveState;
-use App\Services\CognitiveAnalysisService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class DashboardController extends Controller
 {
-    protected CognitiveAnalysisService $analysisService;
-
-    public function __construct(CognitiveAnalysisService $analysisService)
-    {
-        $this->analysisService = $analysisService;
-    }
-
     /**
-     * Render the member statistics dashboard with cognitive analytics & CLT confidence intervals.
+     * Render the member statistics dashboard with cognitive analytics.
      *
      * @param Request $request
      * @return Response
@@ -51,9 +43,6 @@ class DashboardController extends Controller
             }
         }
 
-        // Calculate Central Limit Theorem (CLT) 95% Confidence Interval MBTI Profile
-        $cltProfile = $this->analysisService->calculateCumulativeMbtiProfile($historyScores);
-
         // Calculate Average Emotional Clarity
         $avgClarity = $cognitiveStates->count() > 0 
             ? round($cognitiveStates->avg('emotional_clarity_score'), 2)
@@ -77,8 +66,7 @@ class DashboardController extends Controller
                 'total_turns' => $assistantMessages->count(),
                 'average_emotional_clarity' => $avgClarity,
                 'cognitive_loop_interventions' => $loopCount,
-                'top_mbti_match' => $cltProfile['overall_mbti_match']['top_match'] ?? 'INFP',
-                'clt_profile' => $cltProfile,
+                'top_mbti_match' => 'Balanced Spectrum',
                 'clarity_timeline' => $clarityTimeline,
             ]
         ]);
