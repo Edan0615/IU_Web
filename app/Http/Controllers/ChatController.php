@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
+use Illuminate\View\View;
+
 /**
  * Controller handling counseling chat web routes and RESTful API endpoints.
  * Follows SOLID & Backend Standards by delegating all business logic to CounselingService.
@@ -23,17 +25,17 @@ class ChatController extends Controller
     }
 
     /**
-     * Render the main counseling page using Inertia Vue 3.
+     * Render the main counseling page using traditional Blade view.
      *
      * @param Request $request
-     * @return Response
+     * @return View
      */
-    public function index(Request $request): Response
+    public function index(Request $request): View
     {
         $sessionToken = $request->cookie('counseling_session_token') ?? $request->header('X-Session-Token');
         $chat = $this->counselingService->getOrCreateChat($sessionToken);
 
-        return Inertia::render('Counseling', [
+        return view('counseling', [
             'chat' => $chat->load(['messages', 'cognitiveStates']),
             'sessionToken' => $chat->session_token,
         ]);
