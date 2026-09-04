@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Chat\SendMessageRequest;
 use App\Services\CounselingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -40,21 +41,17 @@ class ChatController extends Controller
     /**
      * RESTful API endpoint to handle user message dispatch and response generation.
      *
-     * @param Request $request
+     * @param SendMessageRequest $request
      * @return JsonResponse
      */
-    public function sendMessage(Request $request): JsonResponse
+    public function sendMessage(SendMessageRequest $request): JsonResponse
     {
-        $request->validate([
-            'message' => 'required|string|max:2000',
-            'session_token' => 'nullable|string|max:64',
-        ]);
-
-        $sessionToken = $request->input('session_token') ?? $request->cookie('counseling_session_token');
+        $sessionToken = $request->validated('session_token') ?? $request->cookie('counseling_session_token');
         $chat = $this->counselingService->getOrCreateChat($sessionToken);
 
-        $result = $this->counselingService->processUserMessage($chat, $request->input('message'));
+        $result = $this->counselingService->processUserMessage($chat, $request->validated('message'));
 
         return response()->json($result)->cookie('counseling_session_token', $chat->session_token, 60 * 24 * 30);
     }
 }
+
