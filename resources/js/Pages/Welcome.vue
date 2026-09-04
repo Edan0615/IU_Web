@@ -292,7 +292,7 @@ onUnmounted(() => {
 
         </section>
 
-        <!-- HOW WE HEAL YOU (METHODOLOGY & GRAPH THEORY LOOPS) SECTION -->
+        <!-- HOW WE HEAL YOU (METHODOLOGY SECTION) -->
         <section class="py-20 lg:py-28 bg-white border-t border-slate-200/80 relative z-10">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Section Title Header -->
@@ -302,7 +302,7 @@ onUnmounted(() => {
                         How NOW Gently Heals Your Mind
                     </h2>
                     <p class="text-base text-slate-600 mt-4 leading-relaxed">
-                        Every sentence you share is mapped across 8 Jungian Cognitive Functions. We evaluate your MBTI matrix, detect 1-3 function stress loops via Graph Theory, and intervene with targeted rotation vectors.
+                        Every sentence you share is analyzed across Carl Jung's 8 Cognitive Functions. We identify your active mental state and intervene with a precise, two-stage rotation vector to restore balance.
                     </p>
                 </div>
 
@@ -314,13 +314,13 @@ onUnmounted(() => {
                             <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-black text-sm flex items-center justify-center mb-6 shadow-md shadow-indigo-600/20">
                                 01
                             </div>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3">Jungian 8-Function Spectrum</h3>
+                            <h3 class="text-xl font-bold text-slate-900 mb-3">Jungian 8-Function Analysis</h3>
                             <p class="text-sm text-slate-600 leading-relaxed">
-                                Every single phrase is analyzed across 8 functions (<span class="font-mono text-indigo-700 font-semibold">Fi, Fe, Ti, Te, Ni, Ne, Si, Se</span>). We track your cognitive history and estimate your MBTI baseline over time.
+                                Every phrase is mapped across 8 core cognitive functions (<span class="font-mono text-indigo-700 font-semibold">Fi, Fe, Ti, Te, Ni, Ne, Si, Se</span>), giving you a real-time spectrum of your mental state.
                             </p>
                         </div>
                         <div class="mt-6 pt-4 border-t border-slate-200/80 flex items-center gap-2 text-xs font-mono text-indigo-700 font-semibold">
-                            <span>NLP Spectrum Mapping</span>
+                            <span>Real-Time Spectrum Analysis</span>
                         </div>
                     </div>
 
@@ -330,13 +330,13 @@ onUnmounted(() => {
                             <div class="w-10 h-10 rounded-xl bg-purple-600 text-white font-black text-sm flex items-center justify-center mb-6 shadow-md shadow-purple-600/20">
                                 02
                             </div>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3">Graph Theory & 1-3 Loop Detection</h3>
+                            <h3 class="text-xl font-bold text-slate-900 mb-3">Bridge Function Soothing</h3>
                             <p class="text-sm text-slate-600 leading-relaxed">
-                                Under stress, minds trap in 1-3 Cognitive Loops (e.g. <span class="font-mono text-purple-700 font-semibold">Fi-Si</span> self-blame, <span class="font-mono text-purple-700 font-semibold">Ti-Ni</span> over-analysis). Using directed graph nodes, we detect when you get stuck in a repetitive loop.
+                                When a dominant function is overloaded (e.g., intense <span class="font-mono text-purple-700 font-semibold">Fi</span> self-blame), we first apply a gentle bridge function (<span class="font-mono text-purple-700 font-semibold">Fe</span> active empathy & social warmth) to soothe current distress.
                             </p>
                         </div>
                         <div class="mt-6 pt-4 border-t border-slate-200/80 flex items-center gap-2 text-xs font-mono text-purple-700 font-semibold">
-                            <span>Directed Graph Node Analysis</span>
+                            <span>Gentle Empathy Buffer</span>
                         </div>
                     </div>
 
@@ -346,9 +346,9 @@ onUnmounted(() => {
                             <div class="w-10 h-10 rounded-xl bg-pink-600 text-white font-black text-sm flex items-center justify-center mb-6 shadow-md shadow-pink-600/20">
                                 03
                             </div>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3">Cognitive Rotation Intervention</h3>
+                            <h3 class="text-xl font-bold text-slate-900 mb-3">Grounded Action Goal</h3>
                             <p class="text-sm text-slate-600 leading-relaxed">
-                                When high <span class="font-mono text-rose-600 font-bold">Fi</span> overload is detected, we soothe with <span class="font-mono text-indigo-600 font-bold">Fe</span> (gentle empathy & social harmony) and guide toward <span class="font-mono text-emerald-600 font-bold">Te</span> (actionable, grounded reality).
+                                After your emotions are accepted and validated, we seamlessly guide your mind toward a grounded target function (<span class="font-mono text-emerald-600 font-bold">Te</span> clear, structured execution steps) for immediate clarity.
                             </p>
                         </div>
                         <div class="mt-6 pt-4 border-t border-slate-200/80 flex items-center gap-2 text-xs font-mono text-pink-700 font-semibold">
@@ -357,26 +357,26 @@ onUnmounted(() => {
                     </div>
                 </div>
 
-                <!-- GRAPH THEORY VISUALIZATION DIAGRAM -->
+                <!-- COGNITIVE ROTATION VISUALIZATION DIAGRAM -->
                 <div class="bg-slate-900 rounded-3xl p-8 lg:p-12 text-white shadow-2xl relative overflow-hidden">
                     <div class="flex flex-col lg:flex-row items-center gap-10">
                         <div class="flex-1 space-y-5">
                             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-mono">
-                                <span>Graph Theory • Directed Node Network</span>
+                                <span>Two-Stage Rotation • Scientific Architecture</span>
                             </div>
                             <h3 class="text-2xl sm:text-4xl font-extrabold tracking-tight">
-                                Visualizing Cognitive Loop Disruption
+                                Two-Stage Cognitive Rotation Vector
                             </h3>
                             <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                                High stress forces your brain into a closed feedback loop between your 1st (Dominant) and 3rd (Tertiary) functions. NOW breaks this cycle by injecting an auxiliary rotation vector.
+                                Stress often traps your mind in a single dominant function. NOW gently shifts your perspective through an empathetic bridge function before anchoring into a grounded action goal.
                             </p>
                             <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 text-xs space-y-2 font-mono text-indigo-200">
                                 <div class="flex items-center gap-2 text-rose-400">
-                                    <span>💥 Trapped State:</span>
-                                    <span>Fi (1st) ⇆ Si (3rd) [Isolated Overthinking Loop]</span>
+                                    <span> Overloaded State:</span>
+                                    <span>Fi (Introverted Feeling Self-Blame & Stress)</span>
                                 </div>
                                 <div class="flex items-center gap-2 text-emerald-400">
-                                    <span>✨ Intervened State:</span>
+                                    <span>✨ Two-Stage Vector:</span>
                                     <span>Fi ➔ Fe (Active Empathy) ➔ Te (Grounded Action)</span>
                                 </div>
                             </div>
@@ -387,52 +387,41 @@ onUnmounted(() => {
                             <!-- Graph Node Network Animation -->
                             <div class="relative w-full h-[220px] flex items-center justify-center">
                                 <!-- Node Fi -->
-                                <div class="absolute top-4 left-8 w-14 h-14 rounded-2xl bg-rose-500/20 border-2 border-rose-500 text-rose-300 flex flex-col items-center justify-center font-bold font-mono shadow-lg shadow-rose-500/30 animate-pulse">
+                                <div class="absolute top-16 left-8 w-16 h-16 rounded-2xl bg-rose-500/20 border-2 border-rose-500 text-rose-300 flex flex-col items-center justify-center font-bold font-mono shadow-lg shadow-rose-500/30 animate-pulse">
                                     <span class="text-sm">Fi</span>
-                                    <span class="text-[9px] opacity-75">1st</span>
+                                    <span class="text-[9px] opacity-75">Overload</span>
                                 </div>
 
-                                <!-- Node Si (Loop Node) -->
-                                <div class="absolute bottom-4 left-8 w-14 h-14 rounded-2xl bg-rose-500/20 border-2 border-rose-500 text-rose-300 flex flex-col items-center justify-center font-bold font-mono shadow-lg shadow-rose-500/30">
-                                    <span class="text-sm">Si</span>
-                                    <span class="text-[9px] opacity-75">3rd</span>
-                                </div>
-
-                                <!-- Loop Arrow SVG -->
-                                <svg class="absolute top-10 left-12 w-8 h-28 pointer-events-none text-rose-500" fill="none" viewBox="0 0 40 100">
-                                    <path d="M 20 10 C 0 50 0 50 20 90" stroke="currentColor" stroke-width="2.5" stroke-dasharray="4 4" />
-                                    <path d="M 20 90 C 40 50 40 50 20 10" stroke="currentColor" stroke-width="2.5" />
-                                </svg>
-
-                                <!-- Rotation Intervention Vector Arrows to Fe & Te -->
+                                <!-- Rotation Vector Arrows -->
                                 <svg class="absolute inset-0 w-full h-full pointer-events-none text-indigo-400" fill="none" viewBox="0 0 350 220">
                                     <!-- Fi to Fe -->
-                                    <path d="M 90 40 Q 180 20 250 50" stroke="#818cf8" stroke-width="3" marker-end="url(#arrowhead)" />
+                                    <path d="M 90 80 Q 180 30 250 50" stroke="#818cf8" stroke-width="3" />
                                     <!-- Fe to Te -->
                                     <path d="M 270 90 L 270 140" stroke="#34d399" stroke-width="3" stroke-dasharray="5 5" />
                                 </svg>
 
                                 <!-- Node Fe (Empathy Softener) -->
-                                <div class="absolute top-4 right-8 w-14 h-14 rounded-2xl bg-indigo-500/20 border-2 border-indigo-400 text-indigo-200 flex flex-col items-center justify-center font-bold font-mono shadow-lg shadow-indigo-500/30">
+                                <div class="absolute top-4 right-8 w-16 h-16 rounded-2xl bg-indigo-500/20 border-2 border-indigo-400 text-indigo-200 flex flex-col items-center justify-center font-bold font-mono shadow-lg shadow-indigo-500/30">
                                     <span class="text-sm">Fe</span>
-                                    <span class="text-[9px] text-indigo-300">Empathy</span>
+                                    <span class="text-[9px] text-indigo-300">Bridge</span>
                                 </div>
 
                                 <!-- Node Te (Grounded Action Goal) -->
-                                <div class="absolute bottom-4 right-8 w-14 h-14 rounded-2xl bg-emerald-500/20 border-2 border-emerald-400 text-emerald-200 flex flex-col items-center justify-center font-bold font-mono shadow-lg shadow-emerald-500/30">
+                                <div class="absolute bottom-4 right-8 w-16 h-16 rounded-2xl bg-emerald-500/20 border-2 border-emerald-400 text-emerald-200 flex flex-col items-center justify-center font-bold font-mono shadow-lg shadow-emerald-500/30">
                                     <span class="text-sm">Te</span>
-                                    <span class="text-[9px] text-emerald-300">Action</span>
+                                    <span class="text-[9px] text-emerald-300">Target</span>
                                 </div>
                             </div>
 
                             <span class="text-[11px] text-slate-400 font-mono mt-2 text-center">
-                                Graph Vector: Fi Loop ➔ Softened by Fe ➔ Grounded in Te
+                                Rotation Path: Fi Overload ➔ Soothed by Fe ➔ Grounded in Te
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
 
         <!-- HOW IT WORKS & SCENARIOS SECTION -->
         <section class="py-16 bg-gradient-to-b from-indigo-50/50 to-purple-50/50 border-t border-slate-200/80 relative z-10">

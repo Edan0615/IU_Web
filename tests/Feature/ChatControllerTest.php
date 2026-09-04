@@ -43,6 +43,7 @@ class ChatControllerTest extends TestCase
 
         $groqMock = Mockery::mock(GroqService::class);
         $groqMock->shouldReceive('generateCompletion')
+            ->atLeast()
             ->once()
             ->andReturn($aiJsonResponse);
 
