@@ -35,11 +35,29 @@ class ChatController extends Controller
         $userMessage = $validated['message'];
 
         $chat = $this->counselingService->getOrCreateChat($sessionToken);
+
+        // Guest limit check (Max 3 user messages for unauthenticated guests)
+        if (!auth()->check()) {
+            $userMsgCount = $chat->messages()->where('role', 'user')->count();
+            if ($userMsgCount >= 3) {
+                return response()->json([
+                    'status' => 'guest_limit_reached',
+                    'message' => 'Guest trial limit reached (3/3 messages). Please log in or register for unlimited cognitive counseling access.',
+                    'is_guest' => true,
+                    'guest_user_msg_count' => $userMsgCount,
+                ], 403);
+            }
+        }
+
         $result = $this->counselingService->processUserMessage($chat, $userMessage);
+
+        $userMsgCount = !auth()->check() ? $chat->messages()->where('role', 'user')->count() : 0;
 
         return response()->json([
             'status' => 'success',
             'session_token' => $chat->session_token,
+            'is_guest' => !auth()->check(),
+            'guest_user_msg_count' => $userMsgCount,
             'data' => $result,
         ]);
     }
@@ -50,17 +68,29 @@ class ChatController extends Controller
     public function getHistory(Request $request): JsonResponse
     {
         $sessionToken = $request->query('session_token');
+
+        if (!$sessionToken && auth()->check()) {
+            $userChat = auth()->user()->chats()->latest()->first();
+            if ($userChat) {
+                $sessionToken = $userChat->session_token;
+            }
+        }
+
         if (!$sessionToken) {
             return response()->json([
                 'status' => 'success',
                 'session_token' => null,
                 'messages' => [],
                 'cognitive_states' => [],
+                'is_guest' => !auth()->check(),
+                'guest_user_msg_count' => 0,
             ]);
         }
 
         $chat = $this->counselingService->getOrCreateChat($sessionToken);
         $chat->load(['messages', 'cognitiveStates']);
+
+        $userMsgCount = !auth()->check() ? $chat->messages()->where('role', 'user')->count() : 0;
 
         return response()->json([
             'status' => 'success',
@@ -68,6 +98,8 @@ class ChatController extends Controller
             'dominant_function' => $chat->dominant_function,
             'messages' => $chat->messages,
             'cognitive_states' => $chat->cognitiveStates,
+            'is_guest' => !auth()->check(),
+            'guest_user_msg_count' => $userMsgCount,
         ]);
     }
 }

@@ -1,6 +1,6 @@
 <template>
-  <div class="card bg-dark text-light border-secondary border-opacity-25 shadow-sm rounded-4 p-2">
-    <div class="card-body p-1 flex-grow-1 d-flex align-items-center justify-content-center" style="min-height: 250px;">
+  <div class="card bg-white border border-stone-200 shadow-sm rounded-4 p-2">
+    <div class="card-body p-1 flex-grow-1 d-flex align-items-center justify-content-center" :style="{ minHeight: height }">
       <canvas ref="canvasRef"></canvas>
     </div>
   </div>
@@ -28,6 +28,10 @@ const props = defineProps({
       Ni: 50, Ne: 50, Si: 50, Se: 50,
       Ti: 50, Te: 50, Fi: 50, Fe: 50
     })
+  },
+  height: {
+    type: String,
+    default: '250px'
   }
 });
 
@@ -51,12 +55,12 @@ const renderChart = () => {
         {
           label: 'Cognitive Radar',
           data: dataValues,
-          backgroundColor: 'rgba(13, 110, 253, 0.25)',
-          borderColor: 'rgba(13, 110, 253, 1)',
-          pointBackgroundColor: 'rgba(13, 202, 240, 1)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(13, 110, 253, 1)',
+          backgroundColor: 'rgba(234, 88, 12, 0.15)',
+          borderColor: 'rgba(234, 88, 12, 1)',
+          pointBackgroundColor: 'rgba(234, 88, 12, 1)',
+          pointBorderColor: '#ffffff',
+          pointHoverBackgroundColor: '#ffffff',
+          pointHoverBorderColor: 'rgba(234, 88, 12, 1)',
           borderWidth: 2,
         }
       ]
@@ -66,11 +70,11 @@ const renderChart = () => {
       maintainAspectRatio: false,
       scales: {
         r: {
-          angleLines: { color: 'rgba(255, 255, 255, 0.15)' },
-          grid: { color: 'rgba(255, 255, 255, 0.15)' },
+          angleLines: { color: 'rgba(0, 0, 0, 0.08)' },
+          grid: { color: 'rgba(0, 0, 0, 0.08)' },
           pointLabels: {
-            color: '#adb5bd',
-            font: { size: 12, weight: 'bold' }
+            color: '#44403c',
+            font: { size: 11, weight: 'bold' }
           },
           ticks: {
             display: false,

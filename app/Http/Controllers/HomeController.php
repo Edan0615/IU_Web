@@ -23,6 +23,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $chats = auth()->user()
+            ->chats()
+            ->withCount('messages')
+            ->with(['cognitiveStates' => function ($query) {
+                $query->latest()->limit(5);
+            }])
+            ->latest()
+            ->get();
+
+        return view('home', compact('chats'));
     }
 }

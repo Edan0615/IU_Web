@@ -68,15 +68,20 @@ class CounselingService
      */
     public function processUserMessage(Chat $chat, string $userContent): array
     {
-        // 1. Save user message into chat_messages table
+        // 1. STAGE 1: Analyze student message FIRST using CognitiveAnalysisService
+        $initialAnalysis = $this->analysisService->analyzeUserMessage($userContent);
+        $primary = $initialAnalysis['primary_function'] ?? 'Fi';
+        $rotationDetails = $this->rotationService->getRotationDetails($primary);
+        $initialAnalysis['rotation_details'] = $rotationDetails;
+
+        // 2. Save user message into chat_messages table with cognitive analysis metadata
         $userMsg = ChatMessage::create([
             'chat_id' => $chat->id,
             'role' => 'user',
             'content' => $userContent,
+            'cognitive_tags' => [$primary],
+            'analysis_metadata' => $initialAnalysis,
         ]);
-
-        // 2. STAGE 1: Analyze student message FIRST using CognitiveAnalysisService
-        $initialAnalysis = $this->analysisService->analyzeUserMessage($userContent);
 
         // 3. STAGE 2: Pass detected cognitive state into CognitiveRotationService for prompt building
         $systemPrompt = $this->rotationService->getSystemPrompt($initialAnalysis);
@@ -87,6 +92,7 @@ class CounselingService
 
         // 5. Parse response & normalize payload via CognitiveAnalysisService
         $analysis = $this->analysisService->parseResponse($rawResponse, $initialAnalysis);
+        $analysis['rotation_details'] = $rotationDetails;
         $replyText = $analysis['reply_text'];
 
         // 6. Persist Cognitive State record into DB
@@ -95,7 +101,7 @@ class CounselingService
             'primary_function' => $analysis['primary_function'],
             'secondary_function' => $analysis['secondary_function'],
             'loop_detected' => null,
-            'rotation_applied' => 'Empathetic Alignment',
+            'rotation_applied' => $rotationDetails['vector'],
             'emotional_clarity_score' => $analysis['emotional_clarity_score'],
         ]);
 
@@ -105,7 +111,7 @@ class CounselingService
             'in_loop' => false,
         ]);
 
-        // 8. Save assistant message with full cognitive metadata and scores
+        // 8. Save assistant message with full cognitive metadata and rotation details
         $assistantMsg = ChatMessage::create([
             'chat_id' => $chat->id,
             'role' => 'assistant',

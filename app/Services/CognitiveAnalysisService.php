@@ -18,15 +18,16 @@ class CognitiveAnalysisService
     }
 
     /**
-     * Analyze user input statement to detect current 8 cognitive function intensities (1-30 scale).
+     * Analyze user input statement to detect current 8 cognitive function intensities (1-30 scale)
+     * and provide explicit psychological reasoning.
      *
      * @param string $userText Raw student message
-     * @return array Analysis payload including primary/secondary functions and 8 function scores
+     * @return array Analysis payload including primary/secondary functions, 8 function scores, and cognitive reasoning
      */
     public function analyzeUserMessage(string $userText): array
     {
-        $prompt = "You are a certified Jungian Psychological Analyst. Analyze the student's message and return ONLY a JSON object evaluating their current 8 cognitive function intensities (Ti, Te, Fi, Fe, Ni, Ne, Si, Se on 1-30 scale), primary_function, and emotional_clarity_score (0.0 to 1.0). Example:\n" .
-            '{"primary_function": "Fi", "secondary_function": "Ne", "scores": {"Ti": 10, "Te": 10, "Fi": 25, "Fe": 12, "Ni": 15, "Ne": 18, "Si": 11, "Se": 9}, "emotional_clarity_score": 0.85}';
+        $prompt = "You are a certified Jungian Psychological Analyst. Analyze the student's message and return ONLY a JSON object evaluating their current 8 cognitive function intensities (Ti, Te, Fi, Fe, Ni, Ne, Si, Se on 1-30 scale), primary_function, secondary_function, emotional_clarity_score (0.0 to 1.0), and cognitive_reasoning (a concise sentence explaining why these cognitive functions were identified). Example:\n" .
+            '{"primary_function": "Fi", "secondary_function": "Ne", "scores": {"Ti": 10, "Te": 10, "Fi": 25, "Fe": 12, "Ni": 15, "Ne": 18, "Si": 11, "Se": 9}, "emotional_clarity_score": 0.85, "cognitive_reasoning": "High Fi detected due to intense internal values reflection and personal emotional alignment."}';
 
         $rawResponse = $this->groqService->generateCompletion([['role' => 'user', 'content' => $userText]], $prompt, 0.2);
         $cleanJson = Str::of($rawResponse)
@@ -37,7 +38,7 @@ class CognitiveAnalysisService
         $parsed = json_decode((string)$cleanJson, true);
 
         if (is_array($parsed) && isset($parsed['scores'])) {
-            return $this->normalizePayload($parsed);
+            return $this->normalizePayload($parsed, $userText);
         }
 
         return $this->getFallbackSpectrum($userText);
@@ -61,6 +62,7 @@ class CognitiveAnalysisService
 
         $primary = $parsed['dominant_function'] ?? ($initialAnalysis['primary_function'] ?? 'Fi');
         $target = $parsed['rotation_target'] ?? ($initialAnalysis['rotation_target'] ?? 'Te');
+        $reasoning = $parsed['cognitive_reasoning'] ?? ($initialAnalysis['cognitive_reasoning'] ?? "Empathetic alignment targeting {$primary} function cognitive transformation.");
 
         return [
             'reply_text' => $parsed['message'] ?? $rawResponse,
@@ -71,13 +73,14 @@ class CognitiveAnalysisService
             'rotation_vector' => $parsed['rotation_vector'] ?? "{$primary} -> {$target}",
             'in_loop' => (bool)($parsed['in_loop'] ?? false),
             'emotional_clarity_score' => (float)($parsed['emotional_clarity_score'] ?? ($initialAnalysis['emotional_clarity_score'] ?? 0.8)),
+            'cognitive_reasoning' => $reasoning,
         ];
     }
 
     /**
      * Normalize parsed JSON payload.
      */
-    protected function normalizePayload(array $parsed): array
+    protected function normalizePayload(array $parsed, string $userText = ''): array
     {
         $scores = [];
         $functions = ['Ti', 'Te', 'Fi', 'Fe', 'Ni', 'Ne', 'Si', 'Se'];
@@ -90,12 +93,14 @@ class CognitiveAnalysisService
         $sorted = $scores;
         arsort($sorted);
         $ranked = array_keys($sorted);
+        $primary = $parsed['primary_function'] ?? $ranked[0];
 
         return [
-            'primary_function' => $parsed['primary_function'] ?? $ranked[0],
+            'primary_function' => $primary,
             'secondary_function' => $parsed['secondary_function'] ?? $ranked[1],
             'scores' => $scores,
             'emotional_clarity_score' => (float)($parsed['emotional_clarity_score'] ?? 0.8),
+            'cognitive_reasoning' => $parsed['cognitive_reasoning'] ?? "Identified {$primary} as primary function based on semantic tone analysis.",
         ];
     }
 
@@ -115,12 +120,14 @@ class CognitiveAnalysisService
         $sorted = $scores;
         arsort($sorted);
         $ranked = array_keys($sorted);
+        $primary = $ranked[0];
 
         return [
-            'primary_function' => $ranked[0],
+            'primary_function' => $primary,
             'secondary_function' => $ranked[1],
             'scores' => $scores,
             'emotional_clarity_score' => 0.8,
+            'cognitive_reasoning' => "Evaluated {$primary} as dominant cognitive orientation based on baseline semantic vectors.",
         ];
     }
 }
