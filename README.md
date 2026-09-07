@@ -12,7 +12,7 @@
 ---
 
 ## Table of Contents
-1. [Overview & Mission](#overview--mission)
+1. [Overview & Demo Video](#overview--demo-video)
 2. [Developer Reflection & Scope Statement](#developer-reflection--scope-statement)
 3. [Carl Jung 8-Cognitive Functions & Rotation Matrix](#carl-jung-8-cognitive-functions--rotation-matrix)
    - [The 8 Cognitive Functions](#1-the-8-cognitive-functions)
@@ -26,11 +26,15 @@
 
 ---
 
-## Overview & Mission
+## Overview & Demo Video
 
 **NOW** is an interactive, AI-powered psychological counseling platform built on **Carl Jung's 8-Cognitive Functions Theory** ($Ni, Ne, Si, Se, Ti, Te, Fi, Fe$) and the **Two-Stage Cognitive Rotation Engine**.
 
 Cognitive paralysis and emotional distress often result from trapped thought loops: over-analyzing past failures ($Fi/Si$) or projecting catastrophic futures ($Ni/Ti$). **NOW** dynamically diagnoses the user's cognitive state during every conversation turn and calculates a vector transformation that rotates their focus into present-moment clarity (**"NOW"**).
+
+### Short Demo Video Walkthrough
+
+<video src="public/video/short_demo_video.mp4" controls width="100%" style="max-width: 850px; border-radius: 12px;"></video>
 
 ---
 
