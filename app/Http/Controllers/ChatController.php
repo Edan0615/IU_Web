@@ -18,11 +18,12 @@ class ChatController extends Controller
     }
 
     /**
-     * Display the main counseling interface.
+     * Display the main counseling interface with optional initial session token.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('counseling');
+        $sessionToken = $request->query('session_token');
+        return view('counseling', compact('sessionToken'));
     }
 
     /**

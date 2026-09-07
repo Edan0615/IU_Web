@@ -1,8 +1,6 @@
 <template>
-  <div class="row g-4 text-dark">
-    <!-- Main Chat Window (8 Columns) -->
-    <div class="col-lg-8">
-      <div class="card bg-white border border-stone-200 shadow-sm rounded-4 overflow-hidden h-100 d-flex flex-column chat-card-responsive">
+  <div class="h-100 flex-grow-1 d-flex flex-column text-dark">
+    <div class="card bg-white border border-stone-200 shadow-sm rounded-4 overflow-hidden h-100 flex-grow-1 d-flex flex-column">
         <!-- Header -->
         <div class="card-header bg-light border-bottom border-stone-200 d-flex align-items-center justify-content-between px-4 py-3">
           <div class="d-flex align-items-center gap-3">
@@ -18,6 +16,13 @@
             </div>
           </div>
           <div class="d-flex align-items-center gap-2">
+            <button
+              v-if="!isGuest && messages.length > 0"
+              @click="startNewSession"
+              class="btn btn-outline-orange btn-sm rounded-pill px-3 fw-semibold fs-8 shadow-sm"
+            >
+              + New Session
+            </button>
             <span v-if="isGuest" :class="['badge rounded-pill px-3 py-2 fw-semibold fs-8', isGuestLimitReached ? 'bg-danger text-white' : 'bg-warning text-dark']">
               Guest Trial: {{ guestUserMsgCount }}/3 Messages
             </span>
@@ -67,9 +72,6 @@
                   </span>
                   <span v-if="msg.analysis_metadata.secondary_function" class="badge bg-light text-secondary border border-stone-200">
                     Auxiliary: {{ msg.analysis_metadata.secondary_function }}
-                  </span>
-                  <span class="text-secondary fs-8 ms-auto">
-                    Clarity: {{ Math.round((msg.analysis_metadata.emotional_clarity_score || 0) * 100) }}%
                   </span>
                 </div>
 
@@ -126,10 +128,21 @@
                   </span>
                 </div>
 
-                <!-- Per-Message Embedded Mini Radar Chart -->
-                <div v-if="msg.analysis_metadata.scores" class="my-2">
-                  <small class="text-secondary fw-semibold d-block mb-1 fs-8">Message Cognitive Spectrum Radar:</small>
-                  <RadarChart :cognitive-scores="msg.analysis_metadata.scores" height="180px" />
+                <!-- Per-Message Embedded Mini Radar Chart (Collapsible Toggle) -->
+                <div v-if="msg.analysis_metadata.scores" class="mt-2 pt-1 border-top border-stone-200">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <small class="text-secondary fw-semibold fs-8">Cognitive Spectrum Radar:</small>
+                    <button
+                      type="button"
+                      @click="msg.showRadar = !msg.showRadar"
+                      class="btn btn-sm btn-link text-orange text-decoration-none p-0 fs-8 fw-semibold"
+                    >
+                      {{ msg.showRadar ? '▲ Hide Spectrum Radar' : '▼ Expand Spectrum Radar' }}
+                    </button>
+                  </div>
+                  <div v-if="msg.showRadar" class="mt-2">
+                    <RadarChart :cognitive-scores="msg.analysis_metadata.scores" height="180px" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -180,49 +193,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Sidebar Dashboard (4 Columns) -->
-    <div class="col-lg-4 d-flex flex-column gap-4">
-      <!-- Cumulative Session Average Radar Card -->
-      <div class="card bg-white border border-stone-200 shadow-sm rounded-4 p-3">
-        <div class="card-body">
-          <h5 class="card-title fw-bold text-dark mb-1 d-flex align-items-center gap-2">
-            <span class="text-orange">
-              <svg class="bi bi-pie-chart" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M7.5 1.018a7 7 0 0 0-4.79 11.566L7.5 7.793zm1 0V7.5h6.482A7 7 0 0 0 8.5 1.018M14.982 8.5H8.207l-4.79 4.79A7 7 0 0 0 14.982 8.5M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8"/>
-              </svg>
-            </span>
-            <span>8-Cognitive Function Radar</span>
-          </h5>
-          <p class="card-text fs-7 text-secondary mb-3">Cumulative session average spectrum tracking Ni, Ne, Si, Se, Ti, Te, Fi, Fe across all statements.</p>
-          
-          <!-- Radar Chart showing Session Cumulative Average -->
-          <RadarChart :cognitive-scores="averageScores" height="260px" />
-        </div>
-      </div>
-
-      <!-- State Summary Card -->
-      <div class="card bg-white border border-stone-200 shadow-sm rounded-4 p-3">
-        <div class="card-body">
-          <h6 class="card-title fw-bold text-dark mb-3">Session Cognitive Summary</h6>
-          <ul class="list-group list-group-flush fs-7">
-            <li class="list-group-item bg-transparent text-dark border-stone-200 d-flex justify-content-between py-2 px-0">
-              <span class="text-secondary">Primary Function</span>
-              <span class="fw-bold text-orange font-monospace">{{ latestAnalysis.primary_function || 'Awaiting input' }}</span>
-            </li>
-            <li class="list-group-item bg-transparent text-dark border-stone-200 d-flex justify-content-between py-2 px-0">
-              <span class="text-secondary">Rotation Vector</span>
-              <span class="text-orange font-monospace fw-bold">{{ latestAnalysis.rotation_details ? latestAnalysis.rotation_details.vector : 'Fi → Fe (Bridge) → Te (Target)' }}</span>
-            </li>
-            <li class="list-group-item bg-transparent text-dark border-stone-200 d-flex justify-content-between py-2 px-0">
-              <span class="text-secondary">Emotional Clarity</span>
-              <span class="fw-bold text-success font-monospace">{{ Math.round((latestAnalysis.emotional_clarity_score || 0.8) * 100) }} / 100</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script setup>
@@ -230,10 +200,17 @@ import { ref, computed, onMounted, nextTick } from 'vue';
 import axios from 'axios';
 import RadarChart from './RadarChart.vue';
 
+const props = defineProps({
+  initialSessionToken: {
+    type: String,
+    default: ''
+  }
+});
+
 const inputMessage = ref('');
 const messages = ref([]);
 const isLoading = ref(false);
-const sessionToken = ref(localStorage.getItem('counseling_session_token') || null);
+const sessionToken = ref(props.initialSessionToken || localStorage.getItem('counseling_session_token') || null);
 const dominantFunction = ref('');
 const messagesContainer = ref(null);
 
@@ -463,7 +440,23 @@ const scrollToBottom = () => {
   });
 };
 
+const startNewSession = () => {
+  sessionToken.value = null;
+  localStorage.removeItem('counseling_session_token');
+  messages.value = [];
+  dominantFunction.value = '';
+  window.history.pushState({}, '', '/counseling');
+  fetchHistory();
+};
+
 onMounted(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tokenFromUrl = urlParams.get('session_token');
+  const tokenToUse = props.initialSessionToken || tokenFromUrl;
+  if (tokenToUse) {
+    sessionToken.value = tokenToUse;
+    localStorage.setItem('counseling_session_token', tokenToUse);
+  }
   fetchHistory();
 });
 </script>

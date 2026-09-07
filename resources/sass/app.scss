@@ -70,13 +70,26 @@ body {
   animation: spinSlow 12s linear infinite;
 }
 
-// Responsive Web Design (RWD) Media Queries & Custom Helper Utilities
+// Dynamic Viewport Height & Full Screen vh-100 Counseling Workspace Utilities
+.counseling-workspace-container {
+  height: calc(100vh - 72px);
+  min-height: 520px;
+}
+
+@supports (height: 100dvh) {
+  .counseling-workspace-container {
+    height: calc(100dvh - 72px);
+  }
+}
+
 .chat-card-responsive {
-  min-height: 700px;
+  height: 100%;
+  min-height: 480px;
 }
 
 .chat-stream-responsive {
-  max-height: 540px;
+  flex: 1 1 0%;
+  overflow-y: auto;
 }
 
 .card-hover-lift {
@@ -101,11 +114,9 @@ body {
     padding: 0.65rem 1.5rem !important;
     font-size: 0.95rem !important;
   }
-  .chat-card-responsive {
-    min-height: 480px !important;
-  }
-  .chat-stream-responsive {
-    max-height: 400px !important;
+  .counseling-workspace-container {
+    height: calc(100vh - 65px) !important;
+    min-height: 450px !important;
   }
 }
 

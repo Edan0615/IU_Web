@@ -55,7 +55,7 @@
                     @else
                         <div class="list-group list-group-flush gap-3">
                             @foreach ($chats as $chat)
-                                <div class="list-group-item bg-light border border-stone-200 rounded-3 p-3">
+                                <div class="list-group-item bg-white border border-stone-200 shadow-sm rounded-4 p-3 card-hover-lift">
                                     <div class="d-flex align-items-center justify-content-between mb-2">
                                         <div class="d-flex align-items-center gap-2">
                                             <span class="badge bg-orange-subtle text-orange border border-orange-subtle font-monospace fw-bold">
@@ -65,9 +65,11 @@
                                         </div>
                                         <small class="text-secondary fs-8">{{ $chat->created_at->diffForHumans() }}</small>
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between fs-8 text-secondary">
-                                        <span>Total Statements: {{ $chat->messages_count }}</span>
-                                        <span>Session Token: <code class="text-muted">{{ substr($chat->session_token, 0, 10) }}...</code></span>
+                                    <div class="d-flex align-items-center justify-content-between fs-8 text-secondary mt-3 pt-2 border-top border-stone-200">
+                                        <span>Total Statements: <strong>{{ $chat->messages_count }}</strong></span>
+                                        <a href="{{ route('counseling', ['session_token' => $chat->session_token]) }}" class="btn btn-orange btn-sm rounded-pill px-4 fw-semibold shadow-sm">
+                                            Resume Session ➔
+                                        </a>
                                     </div>
                                 </div>
                             @endforeach

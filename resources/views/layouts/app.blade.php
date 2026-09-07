@@ -80,17 +80,19 @@
         </nav>
 
         <!-- Dynamic Content Body -->
-        <main class="flex-grow-1 py-4">
+        <main class="flex-grow-1 d-flex flex-column">
             @yield('content')
         </main>
 
-        <!-- Unified Footer -->
-        <footer class="py-4 text-center text-secondary border-top border-stone-200 bg-white mt-auto">
-            <div class="container">
-                <p class="mb-1 fs-7">&copy; {{ date('Y') }} NOW Cognitive Counseling Center. All rights reserved.</p>
-                <p class="mb-0 fs-8 text-muted">Powered by Laravel 10, Bootstrap 5, Vue 3 & Jungian 8-Cognitive Function Engine.</p>
-            </div>
-        </footer>
+        <!-- Unified Footer (Hidden on Counseling Center workspace for full vh-100 app experience) -->
+        @unless (request()->routeIs('counseling'))
+            <footer class="py-4 text-center text-secondary border-top border-stone-200 bg-white mt-auto">
+                <div class="container">
+                    <p class="mb-1 fs-7">&copy; {{ date('Y') }} NOW Cognitive Counseling Center. All rights reserved.</p>
+                    <p class="mb-0 fs-8 text-muted">Powered by Laravel 10, Bootstrap 5, Vue 3 & Jungian 8-Cognitive Function Engine.</p>
+                </div>
+            </footer>
+        @endunless
     </div>
 </body>
 </html>
