@@ -330,4 +330,4 @@ php artisan test
 ---
 
 ## License
-This project is open-source software licensed under the [MIT License](LICENSE).
+This project is developed as an academic portfolio project for **IU International University**. All rights reserved.
