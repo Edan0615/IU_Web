@@ -222,4 +222,43 @@ class ChatControllerFeatureTest extends TestCase
                 'guest_user_msg_count' => 3,
             ]);
     }
+
+    /**
+     * Test guest chat session claiming: Guest chat is bound to user account upon login/registration.
+     */
+    public function test_guest_session_claimed_upon_user_login_and_registration(): void
+    {
+        $guestChat = Chat::create([
+            'session_token' => 'guest_trial_session_99999',
+            'title' => 'Guest Trial Session',
+            'dominant_function' => 'Fi',
+            'user_id' => null,
+        ]);
+
+        ChatMessage::create([
+            'chat_id' => $guestChat->id,
+            'role' => 'user',
+            'content' => 'Guest trial question',
+        ]);
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'guest_claim_tester@gmail.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+        ]);
+
+        // Login with guest_session_token in request payload
+        $response = $this->post('/login', [
+            'email' => 'guest_claim_tester@gmail.com',
+            'password' => 'password123',
+            'guest_session_token' => 'guest_trial_session_99999',
+        ]);
+
+        $response->assertRedirect('/home');
+
+        // Assert that the guest chat is now bound to the logged-in user ID
+        $this->assertDatabaseHas('chats', [
+            'session_token' => 'guest_trial_session_99999',
+            'user_id' => $user->id,
+        ]);
+    }
 }

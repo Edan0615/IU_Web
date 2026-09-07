@@ -37,4 +37,21 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
+
+    /**
+     * The user has been authenticated. Claim any unattached guest counseling session.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    {
+        $guestToken = $request->input('guest_session_token') ?: session('guest_session_token');
+        if ($guestToken) {
+            \App\Models\Chat::where('session_token', $guestToken)
+                ->whereNull('user_id')
+                ->update(['user_id' => $user->id]);
+        }
+    }
 }

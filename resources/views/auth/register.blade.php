@@ -22,6 +22,7 @@
                 <div class="card-body p-4 p-md-5">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
+                        <input type="hidden" name="guest_session_token" id="register_guest_session_token" value="{{ request('guest_session_token', session('guest_session_token')) }}">
 
                         <!-- Full Name Input -->
                         <div class="mb-3">
@@ -110,4 +111,14 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tokenInput = document.getElementById('register_guest_session_token');
+    const savedToken = localStorage.getItem('counseling_session_token');
+    if (tokenInput && !tokenInput.value && savedToken) {
+        tokenInput.value = savedToken;
+    }
+});
+</script>
 @endsection

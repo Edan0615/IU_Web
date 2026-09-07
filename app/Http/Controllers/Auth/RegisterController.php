@@ -67,4 +67,21 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    /**
+     * The user has been registered. Claim any unattached guest counseling session.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(\Illuminate\Http\Request $request, $user)
+    {
+        $guestToken = $request->input('guest_session_token') ?: session('guest_session_token');
+        if ($guestToken) {
+            \App\Models\Chat::where('session_token', $guestToken)
+                ->whereNull('user_id')
+                ->update(['user_id' => $user->id]);
+        }
+    }
 }

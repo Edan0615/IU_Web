@@ -32,10 +32,13 @@ class ChatController extends Controller
     public function sendMessage(SendMessageRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $sessionToken = $validated['session_token'] ?? null;
+        $sessionToken = $validated['session_token'] ?? session('guest_session_token');
         $userMessage = $validated['message'];
 
         $chat = $this->counselingService->getOrCreateChat($sessionToken);
+
+        // Store active session_token in Laravel session memory for guest continuity across login/register
+        session(['guest_session_token' => $chat->session_token]);
 
         // Guest limit check (Max 3 user messages for unauthenticated guests)
         if (!auth()->check()) {
@@ -68,12 +71,29 @@ class ChatController extends Controller
      */
     public function getHistory(Request $request): JsonResponse
     {
-        $sessionToken = $request->query('session_token');
+        $sessionToken = $request->query('session_token') ?: session('guest_session_token');
 
-        if (!$sessionToken && auth()->check()) {
-            $userChat = auth()->user()->chats()->latest()->first();
-            if ($userChat) {
-                $sessionToken = $userChat->session_token;
+        if (auth()->check()) {
+            $userId = auth()->id();
+            // Automatically claim any unattached guest session in session memory or by token
+            if ($sessionToken) {
+                \App\Models\Chat::where('session_token', $sessionToken)->whereNull('user_id')->update(['user_id' => $userId]);
+            }
+            if (session()->has('guest_session_token')) {
+                \App\Models\Chat::where('session_token', session('guest_session_token'))->whereNull('user_id')->update(['user_id' => $userId]);
+            }
+
+            if (!$sessionToken) {
+                $userChat = auth()->user()->chats()->latest()->first();
+                if ($userChat) {
+                    $sessionToken = $userChat->session_token;
+                } else {
+                    $recentUnattached = \App\Models\Chat::whereNull('user_id')->where('created_at', '>=', now()->subHours(2))->latest()->first();
+                    if ($recentUnattached) {
+                        $recentUnattached->update(['user_id' => $userId]);
+                        $sessionToken = $recentUnattached->session_token;
+                    }
+                }
             }
         }
 

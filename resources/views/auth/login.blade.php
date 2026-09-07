@@ -33,6 +33,7 @@
 
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
+                        <input type="hidden" name="guest_session_token" id="login_guest_session_token" value="{{ request('guest_session_token', session('guest_session_token')) }}">
 
                         <!-- Email Input -->
                         <div class="mb-3">
@@ -114,6 +115,12 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('email').value = 'tester@gmail.com';
             document.getElementById('password').value = 'abc123456789';
         });
+    }
+
+    const tokenInput = document.getElementById('login_guest_session_token');
+    const savedToken = localStorage.getItem('counseling_session_token');
+    if (tokenInput && !tokenInput.value && savedToken) {
+        tokenInput.value = savedToken;
     }
 });
 </script>
