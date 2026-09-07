@@ -158,8 +158,8 @@
             <h5 class="fw-bold text-dark mb-2">Guest Free Trial Limit Reached (3/3 Messages)</h5>
             <p class="fs-7 text-secondary max-w-md mx-auto mb-3">You have used all 3 free trial statements. Log in or create a free account to unlock unlimited 8-cognitive function counseling history & continuous rotation guidance.</p>
             <div class="d-flex align-items-center justify-content-center gap-2">
-              <a href="/login" class="btn btn-outline-orange rounded-pill px-4 btn-sm fw-semibold">Log In</a>
-              <a href="/register" class="btn btn-orange rounded-pill px-4 btn-sm fw-semibold shadow-sm">Register Free Account</a>
+              <a :href="'/login?guest_session_token=' + (sessionToken || '')" class="btn btn-outline-orange rounded-pill px-4 btn-sm fw-semibold">Log In</a>
+              <a :href="'/register?guest_session_token=' + (sessionToken || '')" class="btn btn-orange rounded-pill px-4 btn-sm fw-semibold shadow-sm">Register Free Account</a>
             </div>
           </div>
 
