@@ -17,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('web')->group(function () {
+    Route::post('/chat/send', [App\Http\Controllers\ChatController::class, 'sendMessage']);
+    Route::get('/chat/history', [App\Http\Controllers\ChatController::class, 'getHistory']);
+});
+
+

@@ -17,7 +17,3 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/docs
-docs/
-AGENTS.md
-.backup_services

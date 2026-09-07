@@ -1,8 +1,122 @@
 // Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
 
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+// BearTor Custom Brand Colors & Utilities (White & Orange Design System)
+:root {
+  --beartor-orange: #ea580c;
+  --beartor-orange-hover: #c2410c;
+  --beartor-orange-light: #fff7ed;
+  --beartor-orange-border: #ffedd5;
+}
+
+body {
+  font-family: 'Inter', 'Noto Sans TC', sans-serif;
+  background-color: #fafafa;
+  color: #1c1917;
+}
+
+.bg-warm-white {
+  background-color: #fafafa !important;
+}
+
+.btn-orange {
+  background-color: var(--beartor-orange);
+  border-color: var(--beartor-orange);
+  color: #ffffff;
+
+  &:hover, &:focus, &:active {
+    background-color: var(--beartor-orange-hover);
+    border-color: var(--beartor-orange-hover);
+    color: #ffffff;
+  }
+}
+
+.btn-outline-orange {
+  border-color: var(--beartor-orange);
+  color: var(--beartor-orange);
+  background-color: transparent;
+
+  &:hover, &:focus, &:active {
+    background-color: var(--beartor-orange);
+    border-color: var(--beartor-orange);
+    color: #ffffff;
+  }
+}
+
+.bg-orange-subtle {
+  background-color: var(--beartor-orange-light) !important;
+}
+
+.text-orange {
+  color: var(--beartor-orange) !important;
+}
+
+.border-orange-subtle {
+  border-color: var(--beartor-orange-border) !important;
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin-slow {
+  animation: spinSlow 12s linear infinite;
+}
+
+// Dynamic Viewport Height & Full Screen vh-100 Counseling Workspace Utilities
+.counseling-workspace-container {
+  height: calc(100vh - 72px);
+  min-height: 520px;
+}
+
+@supports (height: 100dvh) {
+  .counseling-workspace-container {
+    height: calc(100dvh - 72px);
+  }
+}
+
+.chat-card-responsive {
+  height: 100%;
+  min-height: 480px;
+}
+
+.chat-stream-responsive {
+  flex: 1 1 0%;
+  overflow-y: auto;
+}
+
+.card-hover-lift {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .display-4 {
+    font-size: 2.1rem !important;
+  }
+  .display-5 {
+    font-size: 1.8rem !important;
+  }
+  .display-6 {
+    font-size: 1.5rem !important;
+  }
+  .btn-lg {
+    padding: 0.65rem 1.5rem !important;
+    font-size: 0.95rem !important;
+  }
+  .counseling-workspace-container {
+    height: calc(100vh - 65px) !important;
+    min-height: 450px !important;
+  }
+}
+

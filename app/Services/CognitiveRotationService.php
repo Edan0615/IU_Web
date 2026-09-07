@@ -55,6 +55,27 @@ class CognitiveRotationService
     ];
 
     /**
+     * Retrieve detailed cognitive rotation vector and strategy breakdown for a primary function.
+     *
+     * @param string $primary Primary cognitive function (e.g. Fi)
+     * @return array Vector and intervention strategy metadata
+     */
+    public function getRotationDetails(string $primary): array
+    {
+        $formattedPrimary = ucfirst(strtolower(trim($primary)));
+        $info = $this->rotationMap[$formattedPrimary] ?? $this->rotationMap['Fi'];
+        $primaryKey = isset($this->rotationMap[$formattedPrimary]) ? $formattedPrimary : 'Fi';
+
+        return [
+            'primary' => $primaryKey,
+            'bridge' => $info['bridge'],
+            'target' => $info['target'],
+            'vector' => "{$primaryKey} → {$info['bridge']} (Bridge) → {$info['target']} (Target)",
+            'strategy' => $info['strategy']
+        ];
+    }
+
+    /**
      * Formulate system prompt specifying the exact two-stage cognitive rotation path.
      *
      * @param array $analysis Cognitive analysis payload
@@ -64,10 +85,10 @@ class CognitiveRotationService
     {
         $primary = $analysis['primary_function'] ?? 'Fi';
 
-        $rotationInfo = $this->rotationMap[$primary] ?? $this->rotationMap['Fi'];
-        $bridgeFunc = $rotationInfo['bridge'];
-        $targetFunc = $rotationInfo['target'];
-        $rotationStrategy = $rotationInfo['strategy'];
+        $details = $this->getRotationDetails($primary);
+        $bridgeFunc = $details['bridge'];
+        $targetFunc = $details['target'];
+        $rotationStrategy = $details['strategy'];
 
         $prompt = "You are a warm, human-centric counseling companion designed specifically for students under intense exam stress.\n";
         $prompt .= "YOUR CORE IDENTITY:\n";
@@ -79,7 +100,7 @@ class CognitiveRotationService
         $prompt .= "- Student Detected State: [{$primary}]\n";
         $prompt .= "- Bridge Function (Soothe/Support): [{$bridgeFunc}]\n";
         $prompt .= "- Target Function (Grounded Goal): [{$targetFunc}]\n";
-        $prompt .= "- Rotation Vector: {$primary} -> {$bridgeFunc} (Bridge) -> {$targetFunc} (Grounded Goal)\n";
+        $prompt .= "- Rotation Vector: {$details['vector']}\n";
         $prompt .= "- Intervention Strategy: {$rotationStrategy}\n\n";
 
         $prompt .= "LANGUAGE MATCHING MANDATE:\n";
@@ -93,7 +114,8 @@ class CognitiveRotationService
         $prompt .= "  },\n";
         $prompt .= '  "dominant_function": "' . $primary . '",' . "\n";
         $prompt .= '  "rotation_target": "' . $targetFunc . '",' . "\n";
-        $prompt .= '  "rotation_vector": "' . $primary . ' -> ' . $bridgeFunc . ' -> ' . $targetFunc . '",' . "\n";
+        $prompt .= '  "rotation_vector": "' . $details['vector'] . '",' . "\n";
+        $prompt .= '  "rotation_strategy": "' . addslashes($rotationStrategy) . '",' . "\n";
         $prompt .= '  "in_loop": false,' . "\n";
         $prompt .= '  "emotional_clarity_score": 0.8' . "\n";
         $prompt .= "}\n";

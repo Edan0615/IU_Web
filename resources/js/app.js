@@ -16,7 +16,13 @@ import { createApp } from 'vue';
 const app = createApp({});
 
 import ExampleComponent from './components/ExampleComponent.vue';
+import ChatInterface from './components/ChatInterface.vue';
+import RadarChart from './components/RadarChart.vue';
+
 app.component('example-component', ExampleComponent);
+app.component('chat-interface', ChatInterface);
+app.component('radar-chart', RadarChart);
+
 
 /**
  * The following block of code may be used to automatically register your
