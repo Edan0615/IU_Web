@@ -47,6 +47,19 @@ class CounselingService
             }
         }
 
+        // Reuse existing empty chat (0 messages) for active user/guest to prevent session clutter
+        $emptyQuery = Chat::whereDoesntHave('messages');
+        if ($userId) {
+            $emptyQuery->where('user_id', $userId);
+        } else {
+            $emptyQuery->whereNull('user_id');
+        }
+        $emptyChat = $emptyQuery->latest()->first();
+
+        if ($emptyChat) {
+            return $emptyChat;
+        }
+
         return Chat::create([
             'user_id' => $userId,
             'session_token' => Str::random(32),

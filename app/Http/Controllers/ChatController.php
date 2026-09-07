@@ -84,11 +84,11 @@ class ChatController extends Controller
             }
 
             if (!$sessionToken) {
-                $userChat = auth()->user()->chats()->latest()->first();
+                $userChat = auth()->user()->chats()->has('messages')->latest()->first();
                 if ($userChat) {
                     $sessionToken = $userChat->session_token;
                 } else {
-                    $recentUnattached = \App\Models\Chat::whereNull('user_id')->where('created_at', '>=', now()->subHours(2))->latest()->first();
+                    $recentUnattached = \App\Models\Chat::whereNull('user_id')->has('messages')->where('created_at', '>=', now()->subHours(2))->latest()->first();
                     if ($recentUnattached) {
                         $recentUnattached->update(['user_id' => $userId]);
                         $sessionToken = $recentUnattached->session_token;

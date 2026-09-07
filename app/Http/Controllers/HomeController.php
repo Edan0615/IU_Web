@@ -32,9 +32,13 @@ class HomeController extends Controller
                 ->update(['user_id' => $userId]);
         }
 
-        // If user has zero chats, also check if there's any recent unattached chat session in DB from last 2 hours and claim it
+        // Clean up 0-message empty chats to prevent dashboard clutter
+        auth()->user()->chats()->whereDoesntHave('messages')->delete();
+
+        // If user has zero chats, check if there's a recent unattached chat with messages from last 2 hours and claim it
         if (auth()->user()->chats()->count() === 0) {
             \App\Models\Chat::whereNull('user_id')
+                ->has('messages')
                 ->where('created_at', '>=', now()->subHours(2))
                 ->latest()
                 ->first()?->update(['user_id' => $userId]);
@@ -42,6 +46,7 @@ class HomeController extends Controller
 
         $chats = auth()->user()
             ->chats()
+            ->has('messages')
             ->withCount('messages')
             ->with(['cognitiveStates' => function ($query) {
                 $query->latest()->limit(5);
