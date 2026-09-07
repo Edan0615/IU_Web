@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chat;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 
+/**
+ * Controller managing authenticated user dashboard and counseling history listing.
+ */
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Create a new controller instance with auth middleware guard.
      *
      * @return void
      */
@@ -17,17 +22,19 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the user counseling dashboard with claimed history sessions.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @param Request $request
+     * @return Renderable
      */
-    public function index(Request $request)
+    public function index(Request $request): Renderable
     {
         $userId = auth()->id();
         $guestToken = $request->input('guest_session_token') ?: session('guest_session_token');
 
+        // Claim unattached guest session matching token
         if ($guestToken) {
-            \App\Models\Chat::where('session_token', $guestToken)
+            Chat::where('session_token', $guestToken)
                 ->whereNull('user_id')
                 ->update(['user_id' => $userId]);
         }
@@ -37,7 +44,7 @@ class HomeController extends Controller
 
         // If user has zero chats, check if there's a recent unattached chat with messages from last 2 hours and claim it
         if (auth()->user()->chats()->count() === 0) {
-            \App\Models\Chat::whereNull('user_id')
+            Chat::whereNull('user_id')
                 ->has('messages')
                 ->where('created_at', '>=', now()->subHours(2))
                 ->latest()

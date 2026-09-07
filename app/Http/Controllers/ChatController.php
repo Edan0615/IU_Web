@@ -3,15 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SendMessageRequest;
+use App\Models\Chat;
 use App\Services\CounselingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+/**
+ * Controller managing HTTP endpoints for AI cognitive counseling sessions.
+ * Handlers request dispatching, guest session limits, and session history claiming.
+ */
 class ChatController extends Controller
 {
     protected CounselingService $counselingService;
 
+    /**
+     * Inject CounselingService orchestrator instance.
+     */
     public function __construct(CounselingService $counselingService)
     {
         $this->counselingService = $counselingService;
@@ -19,6 +27,9 @@ class ChatController extends Controller
 
     /**
      * Display the main counseling interface with optional initial session token.
+     *
+     * @param Request $request
+     * @return View
      */
     public function index(Request $request): View
     {
@@ -28,6 +39,9 @@ class ChatController extends Controller
 
     /**
      * Process user message via 3-Stage Counseling Pipeline.
+     *
+     * @param SendMessageRequest $request Validated HTTP request
+     * @return JsonResponse
      */
     public function sendMessage(SendMessageRequest $request): JsonResponse
     {
@@ -68,6 +82,9 @@ class ChatController extends Controller
 
     /**
      * Retrieve current active session messages & cognitive history.
+     *
+     * @param Request $request
+     * @return JsonResponse
      */
     public function getHistory(Request $request): JsonResponse
     {
@@ -77,10 +94,10 @@ class ChatController extends Controller
             $userId = auth()->id();
             // Automatically claim any unattached guest session in session memory or by token
             if ($sessionToken) {
-                \App\Models\Chat::where('session_token', $sessionToken)->whereNull('user_id')->update(['user_id' => $userId]);
+                Chat::where('session_token', $sessionToken)->whereNull('user_id')->update(['user_id' => $userId]);
             }
             if (session()->has('guest_session_token')) {
-                \App\Models\Chat::where('session_token', session('guest_session_token'))->whereNull('user_id')->update(['user_id' => $userId]);
+                Chat::where('session_token', session('guest_session_token'))->whereNull('user_id')->update(['user_id' => $userId]);
             }
 
             if (!$sessionToken) {
@@ -88,7 +105,7 @@ class ChatController extends Controller
                 if ($userChat) {
                     $sessionToken = $userChat->session_token;
                 } else {
-                    $recentUnattached = \App\Models\Chat::whereNull('user_id')->has('messages')->where('created_at', '>=', now()->subHours(2))->latest()->first();
+                    $recentUnattached = Chat::whereNull('user_id')->has('messages')->where('created_at', '>=', now()->subHours(2))->latest()->first();
                     if ($recentUnattached) {
                         $recentUnattached->update(['user_id' => $userId]);
                         $sessionToken = $recentUnattached->session_token;
@@ -108,7 +125,7 @@ class ChatController extends Controller
             ]);
         }
 
-        $chat = \App\Models\Chat::where('session_token', $sessionToken)->first();
+        $chat = Chat::where('session_token', $sessionToken)->first();
 
         if (!$chat) {
             return response()->json([

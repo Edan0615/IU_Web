@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * Controller handling user registration and post-registration guest session claiming.
+ */
 class RegisterController extends Controller
 {
     /*
@@ -71,15 +76,15 @@ class RegisterController extends Controller
     /**
      * The user has been registered. Claim any unattached guest counseling session.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  mixed  $user
      * @return mixed
      */
-    protected function registered(\Illuminate\Http\Request $request, $user)
+    protected function registered(Request $request, $user)
     {
         $guestToken = $request->input('guest_session_token') ?: session('guest_session_token');
         if ($guestToken) {
-            \App\Models\Chat::where('session_token', $guestToken)
+            Chat::where('session_token', $guestToken)
                 ->whereNull('user_id')
                 ->update(['user_id' => $user->id]);
         }
