@@ -248,6 +248,13 @@ Generate the unique Laravel application encryption key:
 php artisan key:generate
 ```
 
+Configure your **Groq API Key** for LLM cognitive analysis in `.env`:
+```env
+# Groq API Configuration
+GROQ_API_KEY=your_groq_api_key_here
+# Get your free API key at: https://console.groq.com
+```
+
 ---
 
 ### 5. Step 4: Configure Database
