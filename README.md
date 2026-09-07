@@ -206,7 +206,7 @@ Follow this step-by-step guide to clone, configure, and run the platform from sc
 - **PHP**: `>= 8.2` (with `pdo`, `mbstring`, `openssl`, `tokenizer`, `xml` extensions)
 - **Composer**: Dependency manager for PHP
 - **Node.js**: `>= 18.x` and **npm**
-- **Database**: SQLite (default & zero-config) or MySQL/PostgreSQL
+- **Database**: MySQL / MariaDB (default database) or SQLite / PostgreSQL
 
 ---
 
@@ -250,7 +250,18 @@ php artisan key:generate
 
 ### 5. Step 4: Configure Database
 
-#### Option A: SQLite (Recommended for Local Development)
+#### Option A: MySQL / MariaDB (Primary Database)
+Update your `.env` variables to match your MySQL database credentials:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=iu_web
+DB_USERNAME=root
+DB_PASSWORD=your_mysql_password
+```
+
+#### Option B: SQLite (Optional Zero-Config Setup)
 1. Ensure your `.env` contains:
    ```env
    DB_CONNECTION=sqlite
@@ -259,17 +270,6 @@ php artisan key:generate
    ```bash
    touch database/database.sqlite
    ```
-
-#### Option B: MySQL / MariaDB
-If using MySQL, update your `.env` variables accordingly:
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=iu_web_counseling
-DB_USERNAME=root
-DB_PASSWORD=your_mysql_password
-```
 
 ---
 
