@@ -1,66 +1,128 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🧠 NOW — Master the Present Moment with Jungian Cognitive Rotation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> **NOW** is an advanced AI-powered cognitive counseling platform built on **Carl Jung's 8-Cognitive Functions Theory** (Ni, Ne, Si, Se, Ti, Te, Fi, Fe) and the **Two-Stage Cognitive Rotation Engine**.
+> It helps users escape internal self-blame loops and logic analysis paralysis by dynamically guiding their cognitive mindset back into present-moment clarity and actionable execution.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🌟 Key Features & Architecture
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 🧠 Carl Jung 8-Cognitive Functions Framework
+NOW measures and balances 8 cognitive orientation dimensions during every statement:
+- **Fi (Introverted Feeling)**: Core personal values & authentic emotional alignment.
+- **Fe (Extraverted Feeling)**: Active social empathy & interpersonal harmony.
+- **Ti (Introverted Thinking)**: Deep internal logical analysis & conceptual frameworks.
+- **Te (Extraverted Thinking)**: Structured task execution & organized action.
+- **Ni (Introverted Intuition)**: Singular long-term vision & deep pattern synthesis.
+- **Ne (Extraverted Intuition)**: Exploring fresh creative possibilities & open options.
+- **Si (Introverted Sensing)**: Anchoring steady routines & experiential memory.
+- **Se (Extraverted Sensing)**: Present sensory awareness & physical reality.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+### ⚙️ Two-Stage Cognitive Rotation Engine
+When emotional stress or cognitive traps occur, NOW detects your state and rotates your attention through a precise 2-stage psychological intervention pipeline:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Phase 0: State Diagnosis (Loop Detection)**
+   - Real-time LLM semantic analysis identifies self-blame traps (Fi), logic analysis paralysis (Ti), catastrophic future anxiety (Ni), or past failure memory loops (Si).
+2. **Stage 1 Rotation: Bridge Function Pivot (Soothe & Support)**
+   - Deploys auxiliary support—active empathy (Fe), creative possibilities (Ne), or inner courage affirmation (Fi)—to de-escalate emotional paralysis and soothe anxiety.
+3. **Stage 2 Rotation: Target Function Grounding (Action in NOW)**
+   - Directs your cognitive focus straight into present execution (Te), physical sensory reality (Se), or clear goal vision (Ni) in the present moment (**"NOW"**).
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+#### 🔄 Dynamic Rotation Vector Examples
+- **Self-Blame Trap**: `Fi → Fe (Bridge) → Te (Target)`
+- **Logic Over-Analysis**: `Ti → Ne (Bridge) → Se (Target)`
+- **Catastrophic Anxiety**: `Ni → Fi (Bridge) → Se (Target)`
+- **Past Failure Memory**: `Si → Fe (Bridge) → Ne (Target)`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+### 🖥️ Full-Screen Responsive Counseling Workspace
+- **Full Viewport App Layout (`vh-100` / `100dvh`)**: Dynamic flex height chat interface that automatically adapts to any laptop, desktop monitor, or mobile device.
+- **Per-Message Spectrum Radar**: Interactive Chart.js radar charts and reasoning rationales (`cognitive_reasoning`) embedded per response with collapsible toggles.
+- **Session History & One-Click Restoration**: Registered members can browse past counseling sessions on their Dashboard (`/home`) and instantly jump back into any session with all history and cognitive spectrums preserved.
+- **Guest Free Trial Gate**: 3-message free trial limit for unauthenticated guest users with automated HTTP 403 server-side enforcement.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🛠️ Technology Stack
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+| Layer | Technologies Used |
+| :--- | :--- |
+| **Backend Framework** | Laravel 10 (PHP 8.2+), Eloquent ORM, Web Session Middleware |
+| **AI Engine / LLM** | Groq Service API, JSON Semantic Parser, Fallback Spectrum Engine |
+| **Frontend UI** | Vue 3 Composition API (`<script setup>`), Bootstrap 5, SCSS |
+| **Data Visualization** | Chart.js, `vue-chartjs` |
+| **Asset Bundling** | Vite (Hot Module Replacement HMR) |
+| **Test Suite** | PHPUnit (21 Unit & Feature Tests, 131 Assertions) |
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🚀 Quick Start Guide
 
-## Code of Conduct
+### Prerequisites
+- PHP >= 8.2
+- Composer
+- Node.js (v18+ recommended) & npm
+- SQLite / MySQL
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Installation
 
-## Security Vulnerabilities
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/Edan0615/IU_Web.git
+   cd IU-Web-Project
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. **Install Backend & Frontend Dependencies**:
+   ```bash
+   composer install
+   npm install
+   ```
 
-## License
+3. **Configure Environment File**:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4. **Run Database Migrations & Seeders**:
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
+
+5. **Build Assets & Start Local Server**:
+   ```bash
+   # Terminal 1: Compile Vite Assets
+   npm run dev
+
+   # Terminal 2: Start Laravel Local Server
+   php artisan serve
+   ```
+
+---
+
+## 🔑 Demo Account Credentials
+
+For testing and demonstration, use the seeded test account:
+- **URL**: `http://127.0.0.1:8000/login`
+- **Email**: `tester@gmail.com`
+- **Password**: `abc123456789`
+
+---
+
+## 🧪 Automated Testing Suite
+
+Run the full PHPUnit test suite covering unit calculations, LLM response parsing, edge cases, XSS script injection, long inputs, and 3-message guest trial enforcement:
+
+```bash
+php artisan test
+```
+
+*Note: After running tests, re-seed the database with `php artisan db:seed` to ensure demo data remains ready.*
+
+---
+
+## 📄 License
+This project is open-sourced under the [MIT License](LICENSE).
