@@ -252,8 +252,7 @@ php artisan key:generate
 
 ### 5. Step 4: Configure Database
 
-#### Option A: MySQL / MariaDB (Primary Database)
-Update your `.env` variables to match your MySQL database credentials:
+Update your `.env` variables to match your local MySQL database credentials:
 ```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -262,16 +261,6 @@ DB_DATABASE=iu_web
 DB_USERNAME=root
 DB_PASSWORD=your_mysql_password
 ```
-
-#### Option B: SQLite (Optional Zero-Config Setup)
-1. Ensure your `.env` contains:
-   ```env
-   DB_CONNECTION=sqlite
-   ```
-2. Create the SQLite file if it doesn't exist:
-   ```bash
-   touch database/database.sqlite
-   ```
 
 ---
 
