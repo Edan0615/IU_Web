@@ -36,6 +36,8 @@ As an independent software developer accustomed to building end-to-end commercia
 ### Academic Scope vs. Production Features
 Because this repository was crafted specifically as a university portfolio project for **IU International University**, production-only enterprise features (such as credit card processing, subscription webhooks, or multi-tenant billing) were intentionally left out. 
 
+Similarly, from an architectural standpoint, while custom Laravel **Form Requests** (`app/Http/Requests/*`) and **API Resources** (`app/Http/Resources/*`) could be introduced, doing so for a focused chat counseling API would introduce unnecessary boilerplate and over-engineering. Instead, keeping input validation and data transformation clean and direct strikes the optimal balance between pragmatic design and SOLID discipline.
+
 Instead, engineering efforts were focused on solving a more sophisticated technical challenge:
 1. Building a deterministic **2-Stage Cognitive Rotation Engine** powered by semantic LLM JSON analysis.
 2. Constructing an app-like, full-screen responsive client using **Vue 3 (Composition API)** and **Bootstrap 5**.
