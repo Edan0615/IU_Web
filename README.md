@@ -1,7 +1,13 @@
-# NOW — Jungian Cognitive Rotation Counseling Platform
+# NOW — AI Counseling App for High-Stressed Students
 
-> **University Web Development Portfolio Project**  
-> Developed for **IU International University** to demonstrate advanced full-stack web development capabilities using **Laravel 10**, **Vue 3 (Composition API)**, **Bootstrap 5**, and **LLM Cognitive Semantic Analysis**.
+| Academic Project Metadata | Details |
+| :--- | :--- |
+| **University** | **IU International University** |
+| **Course** | DLBCSPJWD01 |
+| **Tutor** | Christian Remfert |
+| **Student Name** | Yi-Ting (Edan) Huang |
+| **Matriculation Number** | 92014459 |
+| **Tech Stack** | Laravel 10, Vue 3 (Composition API), Bootstrap 5, Groq LLM |
 
 ---
 
