@@ -89,6 +89,8 @@ $$\mathbf{S}_{\text{initial}} \xrightarrow{\text{Stage 1: Pivot}} \mathbf{S}_{\t
 
 ### 3. Advanced Theoretical Expansion & Future Roadmap
 
+*Conceptual Note: The mathematical formulations, graph traversals, and statistical models outlined below represent high-level theoretical concepts and future research proposals. They have not been deeply evaluated for optimal mathematical implementation, nor are they fully implemented within this codebase, as the primary objective of this university project is to demonstrate core full-stack web development capabilities (Laravel, Vue 3, API integration, and automated testing).*
+
 While the current engine successfully implements the 2-Stage Rotation Matrix, several high-order analytical expansions can be integrated into future iterations:
 
 #### A. 1-3 Cognitive Loop Detection (Ego Imbalance)
