@@ -49,7 +49,7 @@
                                 <div class="text-danger fs-8 mt-1" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </div>
-                            @error
+                            @enderror
                         </div>
 
                         <!-- Password Input -->
