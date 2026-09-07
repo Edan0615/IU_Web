@@ -108,7 +108,19 @@ class ChatController extends Controller
             ]);
         }
 
-        $chat = $this->counselingService->getOrCreateChat($sessionToken);
+        $chat = \App\Models\Chat::where('session_token', $sessionToken)->first();
+
+        if (!$chat) {
+            return response()->json([
+                'status' => 'success',
+                'session_token' => null,
+                'messages' => [],
+                'cognitive_states' => [],
+                'is_guest' => !auth()->check(),
+                'guest_user_msg_count' => 0,
+            ]);
+        }
+
         $chat->load(['messages', 'cognitiveStates']);
 
         $userMsgCount = !auth()->check() ? $chat->messages()->where('role', 'user')->count() : 0;
