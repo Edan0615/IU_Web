@@ -38,6 +38,9 @@ Because this repository was crafted specifically as a university portfolio proje
 
 Similarly, from an architectural standpoint, while custom Laravel **Form Requests** (`app/Http/Requests/*`) and **API Resources** (`app/Http/Resources/*`) could be introduced, doing so for a focused chat counseling API would introduce unnecessary boilerplate and over-engineering. Instead, keeping input validation and data transformation clean and direct strikes the optimal balance between pragmatic design and SOLID discipline.
 
+### AI Multi-Provider Abstraction & DI Design
+In production commercial AI architectures, I typically establish a unified Service Contract / Interface (`LlmProviderInterface`) and register driver implementations (e.g., OpenAI, Groq, Anthropic) bound via **Laravel Dependency Injection (DI)** Service Providers. This pattern enables multi-provider failover, automated rate-limit fallbacks, dynamic driver switching, and rate-limiting safeguards. For the focused scope of this university project, a direct provider integration was maintained to avoid unnecessary abstraction overhead while keeping the codebase clear and readable.
+
 Instead, engineering efforts were focused on solving a more sophisticated technical challenge:
 1. Building a deterministic **2-Stage Cognitive Rotation Engine** powered by semantic LLM JSON analysis.
 2. Constructing an app-like, full-screen responsive client using **Vue 3 (Composition API)** and **Bootstrap 5**.
@@ -246,6 +249,13 @@ cp .env.example .env
 Generate the unique Laravel application encryption key:
 ```bash
 php artisan key:generate
+```
+
+Configure your **Groq API Key** for LLM cognitive analysis in `.env`:
+```env
+# Groq API Configuration
+GROQ_API_KEY=your_groq_api_key_here
+# Get your free API key at: https://console.groq.com
 ```
 
 ---
