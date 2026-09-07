@@ -7,7 +7,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+/**
+ * RadarChart.vue
+ * Chart.js wrapper component rendering real-time 8-cognitive function spectrum radar charts.
+ * Visualizes student mental function scores (Ni, Ne, Si, Se, Ti, Te, Fi, Fe).
+ */
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import {
   Chart,
   RadarController,
@@ -19,9 +24,11 @@ import {
   Legend
 } from 'chart.js';
 
+// Register Chart.js controllers & linear scale modules
 Chart.register(RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 const props = defineProps({
+  // 8 Cognitive Function score payload object
   cognitiveScores: {
     type: Object,
     default: () => ({
@@ -29,6 +36,7 @@ const props = defineProps({
       Ti: 50, Te: 50, Fi: 50, Fe: 50
     })
   },
+  // Container canvas height CSS string
   height: {
     type: String,
     default: '250px'
@@ -38,6 +46,9 @@ const props = defineProps({
 const canvasRef = ref(null);
 let chartInstance = null;
 
+/**
+ * Render or re-draw the Chart.js radar instance with latest cognitive score values.
+ */
 const renderChart = () => {
   if (!canvasRef.value) return;
   if (chartInstance) {
@@ -94,6 +105,14 @@ onMounted(() => {
   renderChart();
 });
 
+// Clean up Chart.js canvas instance on component unmount
+onUnmounted(() => {
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+});
+
+// Watch for cognitive score prop updates and re-draw radar
 watch(() => props.cognitiveScores, () => {
   renderChart();
 }, { deep: true });
