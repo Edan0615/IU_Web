@@ -34,7 +34,12 @@ Cognitive paralysis and emotional distress often result from trapped thought loo
 
 ### Short Demo Video Walkthrough
 
-<video src="public/video/short_demo_video.mp4" controls width="100%" style="max-width: 850px; border-radius: 12px;"></video>
+<video width="100%" controls>
+  <source src="public/video/short_demo_video.mp4" type="video/mp4">
+  Your browser does not support playing HTML5 video.
+</video>
+
+*If the video player does not stream directly in your browser or Markdown viewer, you can [▶️ Click Here to Watch / Download Short Demo Video (MP4)](public/video/short_demo_video.mp4).*
 
 ---
 
