@@ -178,7 +178,7 @@ sequenceDiagram
     participant Parser as CognitiveAnalysisService
     participant Engine as CognitiveRotationService
     participant LLM as Groq LLM API / Fallback
-    participant DB as SQLite / MySQL Database
+    participant DB as MySQL Database
 
     User->>Route: POST /api/chat/send (message, session_token)
     Route->>Controller: Dispatch request with Web Session auth check
@@ -208,7 +208,7 @@ Follow this step-by-step guide to clone, configure, and run the platform from sc
 - **PHP**: `>= 8.2` (with `pdo`, `mbstring`, `openssl`, `tokenizer`, `xml` extensions)
 - **Composer**: Dependency manager for PHP
 - **Node.js**: `>= 18.x` and **npm**
-- **Database**: MySQL / MariaDB (default database) or SQLite / PostgreSQL
+- **Database**: MySQL / MariaDB (default database)
 
 ---
 
